@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"time"
-	LogType"github.com/adimax2953/logtool"
+	LogType"github.com/adimax2953/log-tool"
 )
 
 const dateTimeLayout = "2006-01-02 15:04:05"
