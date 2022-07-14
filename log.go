@@ -58,14 +58,52 @@ func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
 		} else {
 			dividerPrint = fmt.Sprintf("%s %s%s", nowTime, dividerPrint, dividerPrint)
 		}
-		fmt.Println(dividerPrint)
+		log.Println(dividerPrint)
 	default:
 		if len(datas) > 0 {
-			log.Printf("%s [%s] [%s] %s => ", nowTime, lt, fileInfo, message)
-			log.Println(datas...)
+			log.Printf("%s [%s] [%s] %s => %v", nowTime, lt, fileInfo, message, datas)
 		} else {
 			log.Printf("%s [%s] [%s] %s \n", nowTime, lt, fileInfo, message)
 		}
+	}
+
+	// Fatal 類型會關閉程式
+	if lt == LogType.Fatal {
+		os.Exit(1)
+	}
+}
+
+// ex: LogTool.LogErrorN("", err)LogType.Error, "Error", err)
+func LogBaseN(lt LogType.LogType, message string, datas ...interface{}) {
+
+	nowTime := dateTimeNowStr()
+
+	// 取得呼叫的 func
+	_, file1, line1, fileOK1 := runtime.Caller(1)
+	if !fileOK1 {
+		log.Printf("%s %s", nowTime, "[Log Tool Error] Not find call func\n")
+		return
+	}
+
+	file1 = filepath.Base(file1)
+	fileInfo := fmt.Sprintf("%s:%d", file1, line1)
+
+	if file1 == "ServerLog.go" || file1 == "server-log.go" {
+		_, file2, line2, fileOK2 := runtime.Caller(2)
+		if !fileOK2 {
+			log.Printf("%s %s", nowTime, "[Log Tool Error] Not find call func\n")
+			return
+		}
+
+		file2 = filepath.Base(file2)
+		fileInfo = fmt.Sprintf("%s:%d", file2, line2)
+	}
+
+	if len(datas) > 0 {
+		log.Printf("%s [%s] [%s] %s => ", nowTime, lt, fileInfo, message)
+		log.Println(datas...)
+	} else {
+		log.Printf("%s [%s] [%s] %s \n", nowTime, lt, fileInfo, message)
 	}
 
 	// Fatal 類型會關閉程式
@@ -80,6 +118,46 @@ func LogReturnLine() {
 
 func LogDivider(message string) {
 	LogBase(LogType.Divider, message)
+}
+
+func LogFatalN(message string, datas ...interface{}) {
+	LogBaseN(LogType.Fatal, message, datas...)
+}
+
+func LogErrorN(message string, datas ...interface{}) {
+	LogBaseN(LogType.Error, message, datas...)
+}
+
+func LogWarningN(message string, datas ...interface{}) {
+	LogBaseN(LogType.Warning, message, datas...)
+}
+
+func LogInfoN(message string, datas ...interface{}) {
+	LogBaseN(LogType.Info, message, datas...)
+}
+
+func LogDebugN(message string, datas ...interface{}) {
+	LogBaseN(LogType.Debug, message, datas...)
+}
+
+func LogDevelopN(message string, datas ...interface{}) {
+	LogBaseN(LogType.Develop, message, datas...)
+}
+
+func LogSystemN(message string, datas ...interface{}) {
+	LogBaseN(LogType.System, message, datas...)
+}
+
+func LogCronN(message string, datas ...interface{}) {
+	LogBaseN(LogType.Cron, message, datas...)
+}
+
+func LogConfigN(message string, datas ...interface{}) {
+	LogBaseN(LogType.Config, message, datas...)
+}
+
+func LogConnectN(message string, datas ...interface{}) {
+	LogBaseN(LogType.Connect, message, datas...)
 }
 
 func LogFatal(message string, datas ...interface{}) {
