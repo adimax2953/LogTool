@@ -68,7 +68,7 @@ func LogBasef(lt LogType.LogType, message string, format string, datas ...any) {
 		log.Println(dividerPrint)
 	default:
 		if len(datas) > 0 {
-			log.Printf("[%s] [%s] %s => %v", lt, fileInfo, message, fmt.Sprintf(format, datas))
+			log.Printf("[%s] [%s] %s => %s", lt, fileInfo, message, fmt.Sprintf(format, datas...))
 		} else {
 			log.Printf("[%s] [%s] %s \n", lt, fileInfo, message)
 		}
