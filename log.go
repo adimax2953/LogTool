@@ -2,6 +2,7 @@ package LogTool
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -17,15 +18,21 @@ func dateTimeNowStr() string {
 	return time.Now().Format(dateTimeLayout)
 }
 
-// ex: LogTool.LogError("", err)LogType.Error, "Error", err)
-func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
+func SetOutput(w io.Writer) {
+	log.SetOutput(w)
+}
 
-	nowTime := dateTimeNowStr()
+// ex: LogTool.LogError("", err)LogType.Error, "Error", err)
+func LogBasef(lt LogType.LogType, message string, format string, datas ...any) {
+
+	log.SetFlags(0)
+
+	log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
 
 	// 取得呼叫的 func
 	_, file1, line1, fileOK1 := runtime.Caller(1)
 	if !fileOK1 {
-		log.Printf("%s %s", nowTime, "[Log Tool Error] Not find call func\n")
+		log.Printf("%s", "[Log Tool Error] Not find call func\n")
 		return
 	}
 
@@ -35,7 +42,7 @@ func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
 	if file1 == "ServerLog.go" || file1 == "server-log.go" {
 		_, file2, line2, fileOK2 := runtime.Caller(2)
 		if !fileOK2 {
-			log.Printf("%s %s", nowTime, "[Log Tool Error] Not find call func\n")
+			log.Printf("%s", "[Log Tool Error] Not find call func\n")
 			return
 		}
 
@@ -54,16 +61,74 @@ func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
 			dividerPrint = dividerPrint + dividerStr
 		}
 		if message != "" {
-			dividerPrint = fmt.Sprintf("%s %s %s %s", nowTime, dividerPrint, message, dividerPrint)
+			dividerPrint = fmt.Sprintf("%s %s %s", dividerPrint, message, dividerPrint)
 		} else {
-			dividerPrint = fmt.Sprintf("%s %s%s", nowTime, dividerPrint, dividerPrint)
+			dividerPrint = fmt.Sprintf("%s%s", dividerPrint, dividerPrint)
 		}
 		log.Println(dividerPrint)
 	default:
 		if len(datas) > 0 {
-			log.Printf("%s [%s] [%s] %s => %v", nowTime, lt, fileInfo, message, datas)
+			log.Printf("[%s] [%s] %s => %v", lt, fileInfo, message, fmt.Sprintf(format, datas))
 		} else {
-			log.Printf("%s [%s] [%s] %s \n", nowTime, lt, fileInfo, message)
+			log.Printf("[%s] [%s] %s \n", lt, fileInfo, message)
+		}
+	}
+
+	// Fatal 類型會關閉程式
+	if lt == LogType.Fatal {
+		os.Exit(1)
+	}
+}
+
+// ex: LogTool.LogError("", err)LogType.Error, "Error", err)
+func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
+
+	log.SetFlags(0)
+
+	log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
+
+	// 取得呼叫的 func
+	_, file1, line1, fileOK1 := runtime.Caller(1)
+	if !fileOK1 {
+		log.Printf("%s", "[Log Tool Error] Not find call func\n")
+		return
+	}
+
+	file1 = filepath.Base(file1)
+	fileInfo := fmt.Sprintf("%s:%d", file1, line1)
+
+	if file1 == "ServerLog.go" || file1 == "server-log.go" {
+		_, file2, line2, fileOK2 := runtime.Caller(2)
+		if !fileOK2 {
+			log.Printf("%s", "[Log Tool Error] Not find call func\n")
+			return
+		}
+
+		file2 = filepath.Base(file2)
+		fileInfo = fmt.Sprintf("%s:%d", file2, line2)
+	}
+
+	switch lt {
+	case LogType.ReturnLine: // 換行
+		log.Println("")
+	case LogType.Divider: // 分隔線
+		dividerLen := 10
+		dividerStr := "="
+		dividerPrint := ""
+		for index := 0; index < dividerLen; index++ {
+			dividerPrint = dividerPrint + dividerStr
+		}
+		if message != "" {
+			dividerPrint = fmt.Sprintf("%s %s %s", dividerPrint, message, dividerPrint)
+		} else {
+			dividerPrint = fmt.Sprintf("%s%s", dividerPrint, dividerPrint)
+		}
+		log.Println(dividerPrint)
+	default:
+		if len(datas) > 0 {
+			log.Printf("[%s] [%s] %s => %v", lt, fileInfo, message, datas)
+		} else {
+			log.Printf("[%s] [%s] %s \n", lt, fileInfo, message)
 		}
 	}
 
@@ -76,12 +141,14 @@ func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
 // ex: LogTool.LogErrorN("", err)LogType.Error, "Error", err)
 func LogBaseN(lt LogType.LogType, message string, datas ...interface{}) {
 
-	nowTime := dateTimeNowStr()
+	log.SetFlags(0)
+
+	log.SetPrefix(fmt.Sprint("%s ", dateTimeNowStr()))
 
 	// 取得呼叫的 func
 	_, file1, line1, fileOK1 := runtime.Caller(1)
 	if !fileOK1 {
-		log.Printf("%s %s", nowTime, "[Log Tool Error] Not find call func\n")
+		log.Printf("%s", "[Log Tool Error] Not find call func\n")
 		return
 	}
 
@@ -91,7 +158,7 @@ func LogBaseN(lt LogType.LogType, message string, datas ...interface{}) {
 	if file1 == "ServerLog.go" || file1 == "server-log.go" {
 		_, file2, line2, fileOK2 := runtime.Caller(2)
 		if !fileOK2 {
-			log.Printf("%s %s", nowTime, "[Log Tool Error] Not find call func\n")
+			log.Printf("%s", "[Log Tool Error] Not find call func\n")
 			return
 		}
 
@@ -100,10 +167,10 @@ func LogBaseN(lt LogType.LogType, message string, datas ...interface{}) {
 	}
 
 	if len(datas) > 0 {
-		log.Printf("%s [%s] [%s] %s => ", nowTime, lt, fileInfo, message)
+		log.Printf("[%s] [%s] %s => ", lt, fileInfo, message)
 		log.Println(datas...)
 	} else {
-		log.Printf("%s [%s] [%s] %s \n", nowTime, lt, fileInfo, message)
+		log.Printf("[%s] [%s] %s \n", lt, fileInfo, message)
 	}
 
 	// Fatal 類型會關閉程式
@@ -197,5 +264,45 @@ func LogConfig(message string, datas ...interface{}) {
 }
 
 func LogConnect(message string, datas ...interface{}) {
+	LogBase(LogType.Connect, message, datas...)
+}
+
+func LogFatalf(message string, format string, datas ...any) {
+	LogBasef(LogType.Fatal, message, format, datas...)
+}
+
+func LogErrorf(message string, format string, datas ...any) {
+	LogBasef(LogType.Error, message, format, datas...)
+}
+
+func LogWarningf(message string, format string, datas ...any) {
+	LogBasef(LogType.Warning, message, format, datas...)
+}
+
+func LogInfof(message string, format string, datas ...any) {
+	LogBasef(LogType.Info, message, format, datas...)
+}
+
+func LogDebugf(message string, format string, datas ...any) {
+	LogBasef(LogType.Debug, message, format, datas...)
+}
+
+func LogDevelopf(message string, datas ...any) {
+	LogBase(LogType.Develop, message, datas...)
+}
+
+func LogSystemf(message string, datas ...any) {
+	LogBase(LogType.System, message, datas...)
+}
+
+func LogCronf(message string, datas ...any) {
+	LogBase(LogType.Cron, message, datas...)
+}
+
+func LogConfigf(message string, datas ...any) {
+	LogBase(LogType.Config, message, datas...)
+}
+
+func LogConnectf(message string, datas ...any) {
 	LogBase(LogType.Connect, message, datas...)
 }
