@@ -287,22 +287,22 @@ func LogDebugf(message string, format string, datas ...any) {
 	LogBasef(LogType.Debug, message, format, datas...)
 }
 
-func LogDevelopf(message string, datas ...any) {
-	LogBase(LogType.Develop, message, datas...)
+func LogDevelopf(message string, format string, datas ...any) {
+	LogBasef(LogType.Develop, message, format, datas...)
 }
 
-func LogSystemf(message string, datas ...any) {
-	LogBase(LogType.System, message, datas...)
+func LogSystemf(message string, format string, datas ...any) {
+	LogBasef(LogType.System, message, format, datas...)
 }
 
-func LogCronf(message string, datas ...any) {
-	LogBase(LogType.Cron, message, datas...)
+func LogCronf(message string, format string, datas ...any) {
+	LogBasef(LogType.Cron, message, format, datas...)
 }
 
-func LogConfigf(message string, datas ...any) {
-	LogBase(LogType.Config, message, datas...)
+func LogConfigf(message string, format string, datas ...any) {
+	LogBasef(LogType.Config, message, format, datas...)
 }
 
-func LogConnectf(message string, datas ...any) {
-	LogBase(LogType.Connect, message, datas...)
+func LogConnectf(message string, format string, datas ...any) {
+	LogBasef(LogType.Connect, message, format, datas...)
 }
