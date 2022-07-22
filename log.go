@@ -88,7 +88,7 @@ func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
 	log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
 
 	// 取得呼叫的 func
-	_, file1, line1, fileOK1 := runtime.Caller(1)
+	_, file1, line1, fileOK1 := runtime.Caller(2)
 	if !fileOK1 {
 		log.Printf("%s", "[Log Tool Error] Not find call func\n")
 		return
@@ -98,7 +98,7 @@ func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
 	fileInfo := fmt.Sprintf("%s:%d", file1, line1)
 
 	if file1 == "ServerLog.go" || file1 == "server-log.go" {
-		_, file2, line2, fileOK2 := runtime.Caller(2)
+		_, file2, line2, fileOK2 := runtime.Caller(3)
 		if !fileOK2 {
 			log.Printf("%s", "[Log Tool Error] Not find call func\n")
 			return

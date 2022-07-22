@@ -7,7 +7,7 @@ import (
 )
 
 func Test_log(t *testing.T) {
-
+ 
 	LogTool.LogDivider("testLogDivider")
 	LogTool.LogReturnLine()
 	LogTool.LogDebug("testLogDebug", 3)
