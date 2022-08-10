@@ -9,7 +9,7 @@ import (
 	"runtime"
 	"time"
 
-	LogType "github.com/adimax2953/log-tool/LogType"
+	LogType "github.com/adimax2953/log-tool/logType"
 )
 
 const dateTimeLayout = "2006-01-02 15:04:05"
