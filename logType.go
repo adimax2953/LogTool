@@ -1,4 +1,4 @@
-package logType
+package LogTool
 
 type LogType int
 

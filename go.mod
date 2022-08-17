@@ -1,3 +1,3 @@
 module github.com/adimax2953/log-tool
 
-go 1.18
+go 1.19

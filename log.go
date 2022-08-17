@@ -8,8 +8,6 @@ import (
 	"path/filepath"
 	"runtime"
 	"time"
-
-	LogType "github.com/adimax2953/log-tool/logType"
 )
 
 const dateTimeLayout = "2006-01-02 15:04:05"
@@ -23,7 +21,7 @@ func SetOutput(w io.Writer) {
 }
 
 // ex: LogTool.LogError("", err)LogType.Error, "Error", err)
-func LogBasef(lt LogType.LogType, message string, format string, datas ...any) {
+func LogBasef(lt LogType, message string, format string, datas ...any) {
 
 	log.SetFlags(0)
 
@@ -51,9 +49,9 @@ func LogBasef(lt LogType.LogType, message string, format string, datas ...any) {
 	}
 
 	switch lt {
-	case LogType.ReturnLine: // 換行
+	case ReturnLine: // 換行
 		log.Println("")
-	case LogType.Divider: // 分隔線
+	case Divider: // 分隔線
 		dividerLen := 10
 		dividerStr := "="
 		dividerPrint := ""
@@ -75,13 +73,13 @@ func LogBasef(lt LogType.LogType, message string, format string, datas ...any) {
 	}
 
 	// Fatal 類型會關閉程式
-	if lt == LogType.Fatal {
+	if lt == Fatal {
 		os.Exit(1)
 	}
 }
 
 // ex: LogTool.LogError("", err)LogType.Error, "Error", err)
-func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
+func LogBase(lt LogType, message string, datas ...interface{}) {
 
 	log.SetFlags(0)
 
@@ -109,9 +107,9 @@ func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
 	}
 
 	switch lt {
-	case LogType.ReturnLine: // 換行
+	case ReturnLine: // 換行
 		log.Println("")
-	case LogType.Divider: // 分隔線
+	case Divider: // 分隔線
 		dividerLen := 10
 		dividerStr := "="
 		dividerPrint := ""
@@ -133,17 +131,16 @@ func LogBase(lt LogType.LogType, message string, datas ...interface{}) {
 	}
 
 	// Fatal 類型會關閉程式
-	if lt == LogType.Fatal {
+	if lt == Fatal {
 		os.Exit(1)
 	}
 }
 
 // ex: LogTool.LogErrorN("", err)LogType.Error, "Error", err)
-func LogBaseN(lt LogType.LogType, message string, datas ...interface{}) {
+func LogBaseN(lt LogType, message string, datas ...interface{}) {
 
 	log.SetFlags(0)
-
-	log.SetPrefix(fmt.Sprint("%s ", dateTimeNowStr()))
+	log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
 
 	// 取得呼叫的 func
 	_, file1, line1, fileOK1 := runtime.Caller(1)
@@ -174,135 +171,135 @@ func LogBaseN(lt LogType.LogType, message string, datas ...interface{}) {
 	}
 
 	// Fatal 類型會關閉程式
-	if lt == LogType.Fatal {
+	if lt == Fatal {
 		os.Exit(1)
 	}
 }
 
 func LogReturnLine() {
-	LogBase(LogType.ReturnLine, "")
+	LogBase(ReturnLine, "")
 }
 
 func LogDivider(message string) {
-	LogBase(LogType.Divider, message)
+	LogBase(Divider, message)
 }
 
 func LogFatalN(message string, datas ...interface{}) {
-	LogBaseN(LogType.Fatal, message, datas...)
+	LogBaseN(Fatal, message, datas...)
 }
 
 func LogErrorN(message string, datas ...interface{}) {
-	LogBaseN(LogType.Error, message, datas...)
+	LogBaseN(Error, message, datas...)
 }
 
 func LogWarningN(message string, datas ...interface{}) {
-	LogBaseN(LogType.Warning, message, datas...)
+	LogBaseN(Warning, message, datas...)
 }
 
 func LogInfoN(message string, datas ...interface{}) {
-	LogBaseN(LogType.Info, message, datas...)
+	LogBaseN(Info, message, datas...)
 }
 
 func LogDebugN(message string, datas ...interface{}) {
-	LogBaseN(LogType.Debug, message, datas...)
+	LogBaseN(Debug, message, datas...)
 }
 
 func LogDevelopN(message string, datas ...interface{}) {
-	LogBaseN(LogType.Develop, message, datas...)
+	LogBaseN(Develop, message, datas...)
 }
 
 func LogSystemN(message string, datas ...interface{}) {
-	LogBaseN(LogType.System, message, datas...)
+	LogBaseN(System, message, datas...)
 }
 
 func LogCronN(message string, datas ...interface{}) {
-	LogBaseN(LogType.Cron, message, datas...)
+	LogBaseN(Cron, message, datas...)
 }
 
 func LogConfigN(message string, datas ...interface{}) {
-	LogBaseN(LogType.Config, message, datas...)
+	LogBaseN(Config, message, datas...)
 }
 
 func LogConnectN(message string, datas ...interface{}) {
-	LogBaseN(LogType.Connect, message, datas...)
+	LogBaseN(Connect, message, datas...)
 }
 
 func LogFatal(message string, datas ...interface{}) {
-	LogBase(LogType.Fatal, message, datas...)
+	LogBase(Fatal, message, datas...)
 }
 
 func LogError(message string, datas ...interface{}) {
-	LogBase(LogType.Error, message, datas...)
+	LogBase(Error, message, datas...)
 }
 
 func LogWarning(message string, datas ...interface{}) {
-	LogBase(LogType.Warning, message, datas...)
+	LogBase(Warning, message, datas...)
 }
 
 func LogInfo(message string, datas ...interface{}) {
-	LogBase(LogType.Info, message, datas...)
+	LogBase(Info, message, datas...)
 }
 
 func LogDebug(message string, datas ...interface{}) {
-	LogBase(LogType.Debug, message, datas...)
+	LogBase(Debug, message, datas...)
 }
 
 func LogDevelop(message string, datas ...interface{}) {
-	LogBase(LogType.Develop, message, datas...)
+	LogBase(Develop, message, datas...)
 }
 
 func LogSystem(message string, datas ...interface{}) {
-	LogBase(LogType.System, message, datas...)
+	LogBase(System, message, datas...)
 }
 
 func LogCron(message string, datas ...interface{}) {
-	LogBase(LogType.Cron, message, datas...)
+	LogBase(Cron, message, datas...)
 }
 
 func LogConfig(message string, datas ...interface{}) {
-	LogBase(LogType.Config, message, datas...)
+	LogBase(Config, message, datas...)
 }
 
 func LogConnect(message string, datas ...interface{}) {
-	LogBase(LogType.Connect, message, datas...)
+	LogBase(Connect, message, datas...)
 }
 
 func LogFatalf(message string, format string, datas ...any) {
-	LogBasef(LogType.Fatal, message, format, datas...)
+	LogBasef(Fatal, message, format, datas...)
 }
 
 func LogErrorf(message string, format string, datas ...any) {
-	LogBasef(LogType.Error, message, format, datas...)
+	LogBasef(Error, message, format, datas...)
 }
 
 func LogWarningf(message string, format string, datas ...any) {
-	LogBasef(LogType.Warning, message, format, datas...)
+	LogBasef(Warning, message, format, datas...)
 }
 
 func LogInfof(message string, format string, datas ...any) {
-	LogBasef(LogType.Info, message, format, datas...)
+	LogBasef(Info, message, format, datas...)
 }
 
 func LogDebugf(message string, format string, datas ...any) {
-	LogBasef(LogType.Debug, message, format, datas...)
+	LogBasef(Debug, message, format, datas...)
 }
 
 func LogDevelopf(message string, format string, datas ...any) {
-	LogBasef(LogType.Develop, message, format, datas...)
+	LogBasef(Develop, message, format, datas...)
 }
 
 func LogSystemf(message string, format string, datas ...any) {
-	LogBasef(LogType.System, message, format, datas...)
+	LogBasef(System, message, format, datas...)
 }
 
 func LogCronf(message string, format string, datas ...any) {
-	LogBasef(LogType.Cron, message, format, datas...)
+	LogBasef(Cron, message, format, datas...)
 }
 
 func LogConfigf(message string, format string, datas ...any) {
-	LogBasef(LogType.Config, message, format, datas...)
+	LogBasef(Config, message, format, datas...)
 }
 
 func LogConnectf(message string, format string, datas ...any) {
-	LogBasef(LogType.Connect, message, format, datas...)
+	LogBasef(Connect, message, format, datas...)
 }
