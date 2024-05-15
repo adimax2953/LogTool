@@ -7,25 +7,26 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
-	"time"
 )
 
-const dateTimeLayout = "2006-01-02 15:04:05"
+// const dateTimeLayout = "2006-01-02 15:04:05"
 
-func dateTimeNowStr() string {
-	return time.Now().Format(dateTimeLayout)
-}
+// func dateTimeNowStr() string {
+// 	return time.Now().Format(dateTimeLayout)
+// }
 
 func SetOutput(w io.Writer) {
 	log.SetOutput(w)
 }
 
+func init() {
+	log.SetFlags(log.LstdFlags)
+}
+
 // ex: LogTool.LogError("", err)LogType.Error, "Error", err)
 func LogBasef(lt LogType, message string, format string, datas ...any) {
 
-	log.SetFlags(0)
-
-	log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
+	// log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
 
 	// 取得呼叫的 func
 	_, file1, line1, fileOK1 := runtime.Caller(2)
@@ -81,9 +82,9 @@ func LogBasef(lt LogType, message string, format string, datas ...any) {
 // ex: LogTool.LogError("", err)LogType.Error, "Error", err)
 func LogBase(lt LogType, message string, datas ...interface{}) {
 
-	log.SetFlags(0)
+	// log.SetFlags(0)
 
-	log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
+	// log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
 
 	// 取得呼叫的 func
 	_, file1, line1, fileOK1 := runtime.Caller(2)
@@ -139,8 +140,8 @@ func LogBase(lt LogType, message string, datas ...interface{}) {
 // ex: LogTool.LogErrorN("", err)LogType.Error, "Error", err)
 func LogBaseN(lt LogType, message string, datas ...interface{}) {
 
-	log.SetFlags(0)
-	log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
+	// log.SetFlags(0)
+	// log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
 
 	// 取得呼叫的 func
 	_, file1, line1, fileOK1 := runtime.Caller(1)
