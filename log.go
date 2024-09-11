@@ -23,10 +23,6 @@ func SetOutput(w io.Writer) {
 // ex: LogTool.LogError("", err)LogType.Error, "Error", err)
 func LogBasef(lt LogType, message string, format string, datas ...any) {
 
-	// log.SetFlags(0)
-
-	// log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
-
 	// 取得呼叫的 func
 	_, file1, line1, fileOK1 := runtime.Caller(2)
 	if !fileOK1 {
@@ -80,10 +76,6 @@ func LogBasef(lt LogType, message string, format string, datas ...any) {
 
 // ex: LogTool.LogError("", err)LogType.Error, "Error", err)
 func LogBase(lt LogType, message string, datas ...interface{}) {
-
-	// log.SetFlags(0)
-
-	// log.SetPrefix(fmt.Sprintf("%s ", dateTimeNowStr()))
 
 	// 取得呼叫的 func
 	_, file1, line1, fileOK1 := runtime.Caller(2)
